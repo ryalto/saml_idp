@@ -116,6 +116,7 @@ module SamlIdp
         log "No acceptable AssertionConsumerServiceURL, either configure them via config.service_provider.response_hosts or match to your metadata_url host"
         return false
       end
+      Honeybadger.notify("Valid SAML Request! 🙌")
 
       return true
     end
