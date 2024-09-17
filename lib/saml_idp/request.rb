@@ -111,6 +111,8 @@ module SamlIdp
       end
 
       if !service_provider.acceptable_response_hosts.include?(response_host)
+        Honeybadger.notify("service_provider: ", service_provider)
+        Honeybadger.notify("issuer: ", issuer)
         Honeybadger.notify("#{service_provider.acceptable_response_hosts} compare to #{response_host}")
         log "#{service_provider.acceptable_response_hosts} compare to #{response_host}"
         log "No acceptable AssertionConsumerServiceURL, either configure them via config.service_provider.response_hosts or match to your metadata_url host"
