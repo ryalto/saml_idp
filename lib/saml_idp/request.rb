@@ -87,26 +87,31 @@ module SamlIdp
 
     def valid?
       unless service_provider?
+        Honeybadger.notify("Unable to find service provider for issuer #{issuer}")
         log "Unable to find service provider for issuer #{issuer}"
         return false
       end
 
       unless (authn_request? ^ logout_request?)
+        Honeybadger.notify("One and only one of authnrequest and logout request is required. authnrequest: #{authn_request?} logout_request: #{logout_request?} ")
         log "One and only one of authnrequest and logout request is required. authnrequest: #{authn_request?} logout_request: #{logout_request?} "
         return false
       end
 
       unless valid_signature?
+        Honeybadger.notify("Signature is invalid in #{raw_xml}")
         log "Signature is invalid in #{raw_xml}"
         return false
       end
 
       if response_url.nil?
+        Honeybadger.notify("Unable to find response url for #{issuer}: #{raw_xml}")
         log "Unable to find response url for #{issuer}: #{raw_xml}"
         return false
       end
 
       if !service_provider.acceptable_response_hosts.include?(response_host)
+        Honeybadger.notify("#{service_provider.acceptable_response_hosts} compare to #{response_host}")
         log "#{service_provider.acceptable_response_hosts} compare to #{response_host}"
         log "No acceptable AssertionConsumerServiceURL, either configure them via config.service_provider.response_hosts or match to your metadata_url host"
         return false
