@@ -33,6 +33,7 @@ module SamlIdp
     end
 
     def validate_saml_request(raw_saml_request = params[:SAMLRequest])
+      Honeybadger.notify("Report validating saml request")
       decode_request(raw_saml_request)
       return true if valid_saml_request?
 
