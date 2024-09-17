@@ -90,6 +90,8 @@ module SamlIdp
         Honeybadger.notify("Unable to find service provider for issuer #{issuer}")
         log "Unable to find service provider for issuer #{issuer}"
         return false
+      else
+        Honeybadger.notify("Service provider found: #{service_provider}")
       end
 
       unless (authn_request? ^ logout_request?)
@@ -111,6 +113,7 @@ module SamlIdp
       end
 
       if !service_provider.acceptable_response_hosts.include?(response_host)
+        Honeybadger.notify("response_url: ", response_url)
         Honeybadger.notify("issuer: ", issuer)
         Honeybadger.notify("#{service_provider.acceptable_response_hosts} compare to #{response_host}")
         log "#{service_provider.acceptable_response_hosts} compare to #{response_host}"
