@@ -45,7 +45,6 @@ module SamlIdp
     def acceptable_response_hosts
       Honeybadger.notify("self.response_hosts: #{self.response_hosts}")
       Honeybadger.notify("metadata_url_host: #{metadata_url_host}")
-      Honeybadger.notify("self.ref: #{self.reference}")
       hosts = Array(self.response_hosts)
       hosts.push(metadata_url_host) if metadata_url_host
 
