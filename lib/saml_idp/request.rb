@@ -111,7 +111,6 @@ module SamlIdp
       end
 
       if !service_provider.acceptable_response_hosts.include?(response_host)
-        Honeybadger.notify("service_provider: ", service_provider)
         Honeybadger.notify("issuer: ", issuer)
         Honeybadger.notify("#{service_provider.acceptable_response_hosts} compare to #{response_host}")
         log "#{service_provider.acceptable_response_hosts} compare to #{response_host}"
